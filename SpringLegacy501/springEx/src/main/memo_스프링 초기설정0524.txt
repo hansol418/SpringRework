@@ -1,0 +1,182 @@
+jsp ,기본기 정도만, -> 모델2부터 ,mvc
+결론, 스프링에 넘어가기 위한 준비 작업.
+
+스프링 레거시(설정이 많고, xml, 자바 설정),
+- 초반에 설정이 많아서, 최대한, 설명을 하고,
+- Todo , crud, Mybatis , 부트 스트랩을 가져와서 활용.
+- 전반적인 스프링의 설정을 다 볼수 있어서 좋음.
+-
+
+소개
+- 객체지향의 의존성 주입 (DI, 포함) 기법을 활용한  객체 지향 프레임워크
+- 최초 로드 존슨 2002년도 책에 예제에서 활용된 프로젝트.
+- J2EE , 기존에는 EJB (무거운, 유료(비쌈)) 개발 회사에서 약간 강요,
+- 탈출 -> 가볍고, 재사용, 유지보수 편한 프레임워크 찾기, 개발.
+-  여러 라이브러리들을 활용하기 쉽다. JDBC, Mybatis,
+예) build.gradle 파일에서, npmRepository , 도구 쇼핑.
+
+의존성 주입,
+1) xml 기법으로 작업
+2) 자바 설정. 어노테이션 사용 하듯이.
+
+
+기존 설정, JSP 프로젝트 만들 때와 환경이 동일,
+주의사항, JAVA EE 8 선택했음.
+
+라이브러리 설치,
+1. spring core , 6.1.8
+2. spring context , 6.1.8
+3. spring test , 6.1.8
+
+build.gradle 파일에 복붙.
+
+3개 스프링 메인 라이브러가 ,
+=========================================================================
+ 6.1.8 버전 안맞아서 -> 5.3.19 임시로 변경함.=========================================================================
+
+
+// https://mvnrepository.com/artifact/org.springframework/spring-core
+implementation group: 'org.springframework', name: 'spring-core', version: '6.1.8'
+
+// https://mvnrepository.com/artifact/org.springframework/spring-context
+implementation group: 'org.springframework', name: 'spring-context', version: '6.1.8'
+
+// https://mvnrepository.com/artifact/org.springframework/spring-test
+testImplementation group: 'org.springframework', name: 'spring-test', version: '6.1.8'
+
+// JSTL
+    // 설정후, 오른쪽 상단 , 코끼리 싱크 버튼 클릭 해서 , 적용하기.
+    // 주소 변경,
+    implementation group: 'jstl', name: 'jstl', version: '1.2'
+
+    // 마리아 db 드라이버 설치.
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.3'
+
+    //롬복 라이브러리 설치
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+
+    // test, 단위 테스트에서도, 사용하기.
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.32'
+
+    //Hikari Cp 설치
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.1.0'
+
+    // 모델맵퍼 : DTO <-> VO 간에 변환기.
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+
+    // Log4j2 ,
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '3.0.0-beta2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '3.0.0-beta2'
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
+    testImplementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '3.0.0-beta2'
+
+
+Log4j2 설정 파일
+이전 jsp 프로젝트 설정파일 재사용.
+log4j2.xml
+예제) 파일 내용.
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="INFO">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}-%msg%n"/>
+
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>
+
+
+1. 의존성 테스트.
+시스템에 빈이라는 이름으로 인스턴스를 미리 등록해서, 나중에 가져와서 이용.
+가져오는 방법
+1) @AutoWired -> 시스템에 등록된 빈이 있다면, 자동으로 가져올게요.
+
+@ , 애너테이션이 뭐냐? 주석, 누구를 위한, 시스템을 위한 주석이다.
+예) , 자바 파일에, 클래스 이름 위에, @Data, 롬복의 get,set,toString,equals,hashcode
+
+@Controller : @WebServlet -> urlmapping : /todo/list , doGet, doPost ,
+@Service
+@Repository , DAO 의 역할과 비슷함.
+@Component , 일반 객체,
+
+
+
+주입 방식,
+1) 필드 주입 방식, final
+2) 생성자 주입 방식 , @AutoWired, 이걸 좀더 많이 사용한다. 자동 주입및, 오류 코드 찾기 쉬움.
+
+느스한 결합, 인터페이스 를 활용함.
+
+interface A ,
+class Person implements A
+
+class Person2 implements A
+
+A a = new Person();
+A a = new Person2();
+
+결론, 느스한 결합은 인터페이스 구조 방식을 활용해서,
+해당 인터페이스 타입이기만 하면, 이걸 구현한 클래스들은 어떤것이든 상관없이 교체 가능.
+
+
+라이브러리 추가.
+spring-webmvc,
+
+검색한 결과의 현재 날짜 기준 최신버전.
+// https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+implementation group: 'org.springframework', name: 'spring-webmvc', version: '6.1.8'
+버전을 다운그레이드,
+implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.19'
+
+스프링 관련 도구 jdbc : spring-jdbc, spring-tx , 5.3.19 통일해서 할 예정.
+
+spring-jdbc
+// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+// implementation group: 'org.springframework', name: 'spring-jdbc', version: '6.1.8'
+implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.19'
+
+spring-tx
+// https://mvnrepository.com/artifact/org.springframework/spring-tx
+// implementation group: 'org.springframework', name: 'spring-tx', version: '6.1.8'
+implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.19'
+
+
+
+마이바티스 관련 도구 : mybatis, mybatis-spring, 위의 버전과 무관하지만, 혹시라도
+
+mybatis
+// https://mvnrepository.com/artifact/org.mybatis/mybatis
+implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.16'
+
+ mybatis-spring
+// https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
+implementation group: 'org.mybatis', name: 'mybatis-spring', version: '3.0.3'
+충돌 발생.
+버전 다운 그레이드
+   implementation group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.7'
+
+
+최신버전으로 충돌이 나면, 변경 할 예정.
+
+방금 추가할 도구 목록
+implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.19'
+implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.19'
+implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.16'
+//implementation group: 'org.mybatis', name: 'mybatis-spring', version: '3.0.3'
+implementation group: 'org.mybatis', name: 'mybatis-spring', version: '2.0.7'
+
+스프링 부트 (설정이 대부분 자동화됨, 하지만, 필요한 부분의 설정은 커스텀 마이징 가능. )
+
+

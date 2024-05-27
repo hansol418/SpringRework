@@ -1,0 +1,115 @@
+도구 설치.
+ModelMapper 라이브러리 설치 하기.
+
+1. maven repository 에서 , 도구 쇼핑함.
+해당 사이트 광고가 너무 심해서 , brave 브라우저 이용하면, 광고 필터함. 참고하기.
+
+ModelMapper
+
+2. build.gradle 파일에서 복붙 후, 적용하기.
+// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+
+3. 역할 , 모델간의 타입을 자동으로 변환 해주는 도구.
+
+4. 초반에 설정.
+특정의, enum 타입의 파일을 만들고, 기본 설정을 지정.
+MapperUtil
+설정 참고 코드.
+public enum MapperUtil {
+  INSTANCE;
+
+  // 멤버로, modelMapper 필요함. 주입, 포함, DI
+  private ModelMapper modelMapper;
+
+  // 양방향 변환에 필요한 초기 설정.
+
+  // 기본 생성자에서, 설정되게 하기.
+  MapperUtil(){
+    // 위에서 주입했던 인스턴스를 선언만 해서, 여기서 할당을 함.
+    // 0x100 이 할당이 됨.
+    this.modelMapper = new ModelMapper();
+    // 추가 설정은,
+    this.modelMapper.getConfiguration()
+        // VO <-> DTO 간의 멤버의 일치성 여부를 확인
+        .setFieldMatchingEnabled(true)
+        // 멤버의 접근 지정자를 private 에 접근하기위해서 필요한 설정.
+        // 기본 , public , default
+    .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
+        // VO <-> DTO 간의 검사를 , 꼼꼼하게 해주세요.(정확히 일치해야함.)
+        .setMatchingStrategy(MatchingStrategies.STRICT);
+  } // 기본 생성자 닫기. MapperUtil
+
+  // ModelMapper 타입의 인스턴스를 반환하는 메서드 만들기.
+  public ModelMapper get() {
+    return modelMapper;
+  }
+}
+
+5 이용법, 간단함.
+modelMapper.map(dto 타입 인스턴스, VO 타입의 클래스 파일) -> 반환을 VO 타입으로 해줌.
+예)
+TodoVO todoVO = modelMapper.map(todoDTO, TodoVO.class);
+
+
+
+Log4j2 , 로깅 해주는 도구.
+자바, System.out.println("");, 초반에는 간단히 확인 하는 용도,
+오류 코드, 실행환경에서 문제점을 찾기 위해서, 이용했음.
+그러나, 개발 환경이고, 실제 운영환경에서는, 로깅의 단계(심각도)를 상향 조정을 함.
+
+개발환경에서 : 사소한 것도 다 기록을 해야 문제점 찾기 좋아요,
+
+실제 운영환경(Production 환경), 로깅을 너무 구체적으로 하면, 해당 서버에 부하를 줍니다.
+그래서, 사소한 기록은 가급적 안하고, 로깅의 레벨(심각도) 에러, 경고, 치명적인 이런 중요한
+이슈에 대해서만 기록을 함.
+
+로그 레벨 , 심각도의 수준,
+위험성 높은 순서도
+1) FATAL : 치명적인
+2) ERROR : 에러 사항 ->    운영 환경에서, 이 단계에서 부터, 아랫단계
+3) WARN : 경고, 노란색 마크.
+4) INFO : 정보를 출력. -> 개발 환경에서, 이 단계에서 부터, 아랫단계
+5) DEBUG : 자세히 출력.
+6) TRACE : 완전 출력.
+
+도구 검색
+log4j, by apache
+
+build.gradle 복붙, 새로고침.
+// Log4j2 ,
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '3.0.0-beta2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '3.0.0-beta2'
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
+    testImplementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '3.0.0-beta2'
+
+
+기본설정
+main -> resources -> log4j2.xml 파일 만들기.
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}-%msg%n"/>
+
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>
+
+
+이용.
+@Log4j2, 붙이고,
+출력하고 싶은 내용을.
+log.info(내용)
+
+
+
+
+
+

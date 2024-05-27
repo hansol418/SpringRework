@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busanit501.springex.mapper.TimeMapper2">
+
+<!--  주의사항, -->
+<!--  1)인터페이스 이름과, 맵퍼 파일 이름 동일-->
+<!--  2) 인터페이스 메서드명과, 여기 있는 아이디 명이 동일. -->
+
+  <select id="getNow" resultType="string">
+    select now()
+  </select>
+
+</mapper>

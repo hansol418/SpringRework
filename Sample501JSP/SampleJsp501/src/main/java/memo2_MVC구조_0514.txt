@@ -1,0 +1,93 @@
+MVC 기본 구조, 모델2 라고 표현.
+
+1 Model : 데이터베이스 관련된 (비지니스 로직)
+2 View : jsp (html, 화면을 의미)
+3 Controller : 브라우저로부터 특정 URL 경로를 받아서, DB 를 전달하는 역할.
+
+동작 원리, 이미지.
+
+get, 무조건 : 입력폼, 화면으로 간다.
+post, 무조건 : 로직을 처리한다.
+
+post 처리시, 서버단에서, 한글이 깨짐 현상이 발생해서,
+UTF-8 설정을, 할 예정.
+
+필터 설정.
+필터 : 직역 , 정수기 물이 필터한다. , 배수관에 있는 필터를 거쳐서, 물이 나온다.
+결론, 물이 나올려면 항상 필터를 거쳐요.
+같은 개념으로, 웹 브라우저에서, 서버 걸쳐서 가면, 한글 처리 해주는 필터를 설정.
+예) post 처리 할 때 마다, 한글 필터가 동작을 해요.
+즉, 현재, 올때마다, 한글 깨져요.
+필터 설정. 올때마다, 한글 안 깨져요.
+
+
+PRG 패턴, Post Redirect Get
+진행방식,
+Get -> 입력 폼 -> 버튼 클릭(로그인,메뉴입력, submit, 버튼) -> post -> 컨트롤러
+-> 로직처리 -> 리다이렉트 , 메인(/), 실패시(입력폼)
+
+-> Post -> Redirect -> Get
+효과, 웹브라우저 입장에서, 무한 포스트 가 들어오는 것을 방지.(임시방편)
+끊어주는 효과.
+만약에, 이렇게 끊어주지 않는다면, 계속 화면은 글쓰기 폼이죠.
+버튼을 뭐할 가능성 이 높나요? 여러번 입력 할 확률이 높아요.
+서버입장에서는 부담 스러워요.
+
+TodoList 미니 프로젝트 해보기. (게시판)
+자바, 회원관리 -> crud
+기획서 작성.
+api 명세서 작성.
+
+컨트롤러, 웹 서블릿에 이름이 중복이 되니, 시스템에서,
+어느 이름으로 작업을 해야할지 선택 장애가 옴. 헷갈림.
+방지
+-> 명세서를 작성.
+예시)
+
+api , 명세서
+
+get , /login , 폼
+post , /login , 처리
+게시판 입력.
+get , /board/register , 폼
+post , /board/registerResult , 처리
+게시판 수정.
+get , /board/update , 폼
+post , /board/updateResult , 처리
+
+
+파일 명 변경 단축키, shift + f6
+
+TodoList 미니 프로젝트, api 명세서 작성 해보기.
+번호  기능      컨트롤러             url 주소       동작방식     뷰
+1 목록(전체)      TodoListController   /todo/list     get     /WEB-INF/todo/todoList.jsp
+2   등록(폼)  TodoRegController     /todo/register    get     /WEB-INF/todo/todoReg.jsp
+3   등록(처리)  TodoRegController   /todo/register    post    리다이렉트(리스트화면)
+4 조회(한개)    TodoReadController   /todo/read       get     /WEB-INF/todo/todoRead.jsp
+5 수정(폼)    TodoUpdateController   /todo/update     get     /WEB-INF/todo/todoUpd.jsp
+6 수정(처리)    TodoUpdateController   /todo/update   post     리다이렉트(리스트화면)
+7 삭제(처리)    TodoDeleteController   /todo/delete   post     리다이렉트(리스트화면)
+
+임시로, 폼 화면, 로직 처리 후, 리스트로 보내기(PRG 패턴)
+Post - Redirect - Get 보내기.
+
+컨트롤러 - 뷰
+모델
+1 (DTO(Data Transfer Object, 데이터 전달용으로 사용하는 모델 클래스,)
+2 (VO,(Value Object, 비지니스 모델, 실제 DB의 컬럼의 내용과 동일)
+3 ( DAO( Data Access Object, 실제로 쿼리를 작성해서, 디비서버에 전달.)
+
+롬복(라이브러리)이, 게터/세터/toString/equals/생성자, 우클릭-> 소스-> 반자동.
+lombok , 어노테이션 이용해서, 메모리상에서 자동으로 로드됨.
+
+
+enum(상수들의 집합체)
+열거형 상수
+
+
+
+
+
+
+
+

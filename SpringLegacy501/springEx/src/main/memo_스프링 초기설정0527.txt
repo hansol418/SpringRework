@@ -1,0 +1,90 @@
+MyBatis
+Sql Mapping 해주는 도구.
+SQL의 실행 결과를 객체지향으로 매핑을 해준다.
+예)
+자바 : 데이터 조회, 메서드를 이용.
+selectList(){} 메서드 호출 -> Mybatis 프레임워크에서, 해당 메서드에 연결될 SQL 문장 코드
+연결 해준다.
+
+기존에 jdbc 를 이용했을 때.
+1) Connection 인스턴스가 필요했고, 해당 드라이버, 유저, 패스워드를 이용해서
+2) PreparedStatement , SQL 문장을 전달하기 위한 도구 필요.
+3) ResultSet , 결과 화면을 담아두기 위한 인스턴스가 필요.
+4) 자원 반납.
+
+Mybatis 특징.
+1) 자동화,
+예) ResultSet , getXXX, ?,?,? 와일드 카드로 직접 데이터를 입력을 했다면,
+여기서, 자동으로 매핑.
+2) 자동 close
+3) SQL, 분리해서, 특정 파일에 보관.
+String sql = " select * from tbl_member";
+
+
+스프링 , Mybatis 조합
+1) Mybatis 단독으로 개발.
+2) 스프링이랑 연결해서, 이용할거냐. 추천 .
+JSP 버전
+역방향
+DB   ->  DAO -> Service -> Controller -> 화면.
+스프링 버전
+역방향
+DB   ->  ModelMapper(xml 파일, sql 문장을 보관) -> Service(인터페이스)
+-> Controller -> FrontController(Dispatch Servlet: 관제탑 비유)-> 화면.
+
+설정법.
+마이바티스 설정 XML , 만들기.
+
+예)resources/mappers/TimeMapper2.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.busanit501.springex.mapper.TimeMapper2">
+
+<!--  주의사항, -->
+<!--  1)인터페이스 이름과, 맵퍼 파일 이름 동일-->
+<!--  2) 인터페이스 메서드명과, 여기 있는 아이디 명이 동일. -->
+
+  <select id="getNow" resultType="string">
+    select now()
+  </select>
+
+</mapper>
+
+2) 만든 설정 파일 , root-context.xml 연동 한다.
+예)
+
+ <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="mapperLocations" value="classpath:/mappers/**/*.xml"/>
+  </bean>
+
+======================================================================================
+
+스프링 MVC ,
+
+JSP 버전
+정방향
+화면 -> Controller -> Service -> Dao -> DB
+역방향
+DB   ->  DAO -> Service -> Controller -> 화면.
+
+스프링 버전
+정방향
+화면 -> FrontController -> Controller -> Service(인터페이스, 구현한 클래스, 느스한 결합) -> 맵퍼 -> DB
+화면(뷰리졸버 도구: 어느 화면으로 갈지 맵핑) <- FrontController <- Controller <- Service(인터페이스, 구현한 클래스, 느스한 결합) <- 맵퍼 <- DB
+
+
+역방향
+DB   ->  ModelMapper(xml 파일, sql 문장을 보관) -> Service(인터페이스)
+-> Controller -> FrontController(Dispatch Servlet: 관제탑 비유)-> 화면.
+
+------------------------------------------------------------------------
+설정,
+정적파일들 보관하기 위한, 폴더 생성.
+wepapp -> resources ->
+
+
+
+

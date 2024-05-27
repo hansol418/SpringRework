@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/Sample501JSP/demo" />
+    <file type="web" url="file://$PROJECT_DIR$/Sample501JSP/demo1" />
+    <file type="web" url="file://$PROJECT_DIR$/Sample501JSP/demo2" />
+    <file type="web" url="file://$PROJECT_DIR$/Sample501JSP/Sample501JSP" />
+    <file type="web" url="file://$PROJECT_DIR$/Sample501JSP/SampleJsp501" />
+    <file type="web" url="file://$PROJECT_DIR$/SpringLegacy501/springEx" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
