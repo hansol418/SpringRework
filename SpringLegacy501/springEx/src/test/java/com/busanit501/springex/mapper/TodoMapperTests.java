@@ -31,11 +31,11 @@ public class TodoMapperTests {
   public void testInsert() {
     // 임시 TodoVO , 인스턴스 필요하고,
     TodoVO todoVO = TodoVO.builder()
-        .title("돈까스22222222222222222222222222")
-        .dueDate(LocalDate.now())
-        .finished(false)
-        .writer("이상용222222222222222222222222222")
-        .build();
+            .title("돈까스22222222222222222222222222")
+            .dueDate(LocalDate.now())
+            .finished(false)
+            .writer("이상용222222222222222222222222222")
+            .build();
     todoMapper.insert(todoVO);
   }
 
@@ -43,6 +43,12 @@ public class TodoMapperTests {
   public void testSelect() {
     List<TodoVO> todoList = todoMapper.listAll();
     todoList.forEach(vo -> log.info("vo : " + vo));
+  }
+
+  @Test
+  public void testGetOne() {
+    TodoVO todoVO = todoMapper.getOne(25L);
+    log.info("todoVO : " + todoVO);
   }
 }
 

@@ -24,7 +24,7 @@
           <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/todo/register">글작성</a>
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -49,34 +49,62 @@
       <!--      부트 스트랩 5.3 Card 컴포넌트 Header and Footer 의 샘플 가져오기-->
       <div class="card">
         <div class="card-header">
-          목록
+          Featured
         </div>
         <div class="card-body">
-          <%--         리스트의 목록의 요소를 넣기--%>
-          <%--          ${dtoList}--%>
-          <table class="table">
-            <thead>
-            <tr>
-              <th scope="col">Tno</th>
-              <th scope="col">Title</th>
-              <th scope="col">Writer</th>
-              <th scope="col">DueDate</th>
-              <th scope="col">Finished</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${dtoList}" var="dto">
-              <tr>
-                <th scope="row"><c:out value="${dto.tno}"/> </th>
-                <td><a href="/todo/read?tno=${dto.tno}"><c:out value="${dto.title}"/></a> </td>
-                <td><c:out value="${dto.writer}"/> </td>
-                <td><c:out value="${dto.dueDate}"/> </td>
-                <td><c:out value="${dto.finished}"/> </td>
-              </tr>
-            </c:forEach>
-            </tbody>
-          </table>
+          <%--         register.jsp 의 화면을 복붙--%>
 
+          <input type="hidden" name="tno" value="1">
+          <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요." value="${todoDTO.title}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="dueDate" class="form-label">일정</label>
+            <input type="date" name="dueDate" class="form-control" id="dueDate" value="${todoDTO.dueDate}" readonly>
+          </div>
+
+          <div class="mb-3">
+            <label for="writer" class="form-label">작성자</label>
+            <input type="text" name="writer" class="form-control" id="writer" placeholder="작성자를 입력해주세요."value="${todoDTO.writer}" readonly>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-check-label" for="finished">Finished</label>
+            <input type="checkbox" class="form-check-input" id="finished" name="finished" value="${todoDTO.finished}" onclick="return false">
+          </div>
+
+          <div class="mb-3">
+            <button type="button" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-danger">목록가기</button>
+          </div>
+
+          <script>
+            document.querySelector(".btn-primary").addEventListener("click", function(event) {
+              // 수정 버튼의 원래의 역할 submit, form 안의 데이터를 서버에게 전달하는 역할.
+              // 단순, 수정폼 화면만 가면됨. 그래서, 기본 기능 안쓸 예정.
+              // button의 타입이, submit, reset 의 고유 기능이 있기 때문. off 하고 이용.
+              // 단순 버튼은 기본 기능이 없음. -> event.preventDefault()  ,주석.
+              // 단순 버튼은 기본 기능이 없음. -> event.stopPropagation()  ,주석.
+              // event.preventDefault()
+              // dom , 전파를 막는 역할.
+              // event.stopPropagation()
+              self.location = `/todo/update?tno=${todoDTO.tno}`
+              // false : 캡쳐링, 이벤트가 발생한 곳부터 전파.
+              // true : 버블링, 위에서 부터 이벤트가 전파.
+            },false);
+
+            document.querySelector(".btn-danger").addEventListener("click", function(event) {
+              self.location = "/todo/list"
+
+            },false);
+
+            const serverValidErrors = {}
+            <c:forEach items = "${errors}" var="error">
+            serverValidErrors['${error.getField()}'] = '${error.defaultMessage}'
+            </c:forEach>
+            console.log(serverValidErrors)
+          </script>
         </div>
       </div>
     </div>

@@ -13,6 +13,8 @@ public interface TodoMapper {
 
   List<TodoVO> listAll();
 
+  TodoVO getOne(Long tno);
+
 }
 
 

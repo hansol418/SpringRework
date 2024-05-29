@@ -9,6 +9,8 @@ public interface TodoService {
   // 맵퍼, listAll 반환 타입 : TodoVO
   // 서비스에서, TodoDTO 로 모두 변환하기.
   List<TodoDTO> listAll();
+  TodoDTO getOne(Long tno);
+
 }
 
 

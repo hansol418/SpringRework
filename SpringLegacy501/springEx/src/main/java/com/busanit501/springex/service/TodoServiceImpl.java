@@ -31,10 +31,17 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public List<TodoDTO> listAll() {
     List<TodoVO> sampleLists = todoMapper.listAll();
-    // TodoVo -> TodoDTO 
-   List<TodoDTO> dtoLists = sampleLists.stream().map(vo -> modelMapper.map(vo, TodoDTO.class))
-        .collect(Collectors.toList());
+    // TodoVo -> TodoDTO
+    List<TodoDTO> dtoLists = sampleLists.stream().map(vo -> modelMapper.map(vo, TodoDTO.class))
+            .collect(Collectors.toList());
     return dtoLists;
+  }
+
+  @Override
+  public TodoDTO getOne(Long tno) {
+    TodoVO todoVO = todoMapper.getOne(tno);
+    TodoDTO todoDTO = modelMapper.map(todoVO, TodoDTO.class);
+    return todoDTO;
   }
 
 }

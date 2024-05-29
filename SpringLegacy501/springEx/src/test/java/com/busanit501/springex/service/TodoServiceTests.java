@@ -28,11 +28,11 @@ public class TodoServiceTests {
   public void testInsert() {
     // 임시 TodoVO , 인스턴스 필요하고,
     TodoDTO todoDTO = TodoDTO.builder()
-        .title("돈까스33333333333333333333333333")
-        .dueDate(LocalDate.now())
-        .finished(false)
-        .writer("이상용333333333333333333")
-        .build();
+            .title("돈까스33333333333333333333333333")
+            .dueDate(LocalDate.now())
+            .finished(false)
+            .writer("이상용333333333333333333")
+            .build();
     todoService.insert(todoDTO);
   }
 
@@ -40,6 +40,12 @@ public class TodoServiceTests {
   public void testListAll() {
     List<TodoDTO> todoList = todoService.listAll();
     todoList.forEach(dto -> log.info("dto : " + dto));
+  }
+
+  @Test
+  public void testGetOne() {
+    TodoDTO todoDTO = todoService.getOne(25L);
+    log.info("todoDTO : " + todoDTO);
   }
 
 }
