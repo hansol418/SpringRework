@@ -16,7 +16,7 @@
 <!--  예) 무시해도 된다는 말은 컨트롤러 안 거치고 , 직접 가능함. -->
 <!--  접근시, http://loacalhost:8080/todo/list-->
 <!--  접근시, http://loacalhost:8080/resources/images/sample.png , 접근 가능함.-->
-  <mvc:resources mapping="/resources/**" location="/resources"></mvc:resources>
+  <mvc:resources mapping="/resources/**" location="/resources/"/>
 
 <!--  화면을 처리해주는 도구. 뷰 리졸버라는 도구. -->
 <!--  앞에서 jsp , 화면경로를 직접 명시. -->
@@ -30,6 +30,7 @@
 <!--  우리가 테스트할 컨트롤러 패키지 경로 위치를 스프링 시스템에 등록하기. -->
 <!--  빈 탐색 경로 등록.-->
   <context:component-scan base-package="com.busanit501.springex.controller"/>
+
 
 <!--  웹 브라우저에서 전달된 날짜 포맷이 문자열로 오기 때문에, 받을 때, 문제가 생겨서, -->
 <!--  시스템에 등록해서, 자동 변환 하기위한 설정.-->

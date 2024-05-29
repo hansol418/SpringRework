@@ -32,6 +32,7 @@ public class CommonExceptionAdvice {
   // 좀더 포괄적으로 예외를 처리 해보자.
   @ResponseBody
   @ExceptionHandler(Exception.class)
+  // 예외가 발생한 모든 정보를,   exception 인스턴스에 담아 둠.
   public String commonException(Exception exception) {
 
     // 자바에서 단순 String 이용시, 메모리 낭비가 심하다.

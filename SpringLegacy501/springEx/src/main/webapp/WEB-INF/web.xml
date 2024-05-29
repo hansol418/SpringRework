@@ -24,7 +24,7 @@
     </init-param>
 <!--    404 not found 발생시, 전달할 페이지 위치 등록-->
     <init-param>
-      <param-name>throwExceptionIfNoHandleFound</param-name>
+      <param-name>throwExceptionIfNoHandlerFound</param-name>
       <param-value>true</param-value>
     </init-param>
 

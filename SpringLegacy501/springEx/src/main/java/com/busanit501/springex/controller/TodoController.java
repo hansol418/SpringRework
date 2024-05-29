@@ -10,6 +10,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 
+// 데이터만 전달. API 서버, API REST 서버,
+//@RestController
+// 화면 + 데이터 전달.
 @Controller
 // 화면상에서 접근하는 URL 주소를 맵핑 해주는 역할.
 // 설정은 , 클래스 앞에도 가능하고, 메서드 앞에도 가능함.
@@ -29,9 +32,9 @@ public class TodoController {
   }
 
   @PostMapping("/register")
-  public void registerPostTest(TodoDTO todoDTO) {
-    log.info("todo register 등록 화면 Post 테스트 콘솔");
+  public void registerPostTest(TodoDTO todoDTO) { log.info("todo register 등록 화면 Post 테스트 콘솔");
     log.info(" TodoDTO todoDTO 타입 원래 register 확인.  : " + todoDTO );
+
   }
 
   // 데이터 수집 방법들, 여러 예제 확인 해보기.
@@ -87,6 +90,7 @@ public class TodoController {
         .dueDate(LocalDate.now())
         .finished(true)
         .build();
+    // 서버 -> 화면 , 데이터 전달.
     model.addAttribute("menu","잡채밥");
     model.addAttribute("todoDTO",todoDTO);
   }
