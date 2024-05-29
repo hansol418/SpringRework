@@ -12,15 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TodoDTO {
-<<<<<<< HEAD
-    private Long tno;
-    private String title;
-    private LocalDate dueDate;
-    private boolean finished;
-    private String writer;
-
-}
-=======
   private Long tno;
   private String title;
   private LocalDate dueDate;
@@ -36,4 +27,3 @@ public class TodoDTO {
 
 
 
->>>>>>> origin/main

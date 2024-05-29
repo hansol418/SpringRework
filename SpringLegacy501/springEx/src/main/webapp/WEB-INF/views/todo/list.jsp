@@ -4,11 +4,7 @@
   <title>Title</title>
 </head>
 <body>
-<<<<<<< HEAD
-<h1>컨트롤러 :/todo/list 의 연결 화면: list.jsp 임시 화면. </h1>
-=======
   <h1>컨트롤러 :/todo/list 의 연결 화면: list.jsp 임시 화면. </h1>
->>>>>>> origin/main
 </body>
 </html>
 

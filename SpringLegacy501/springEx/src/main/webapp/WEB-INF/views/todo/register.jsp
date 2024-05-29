@@ -19,11 +19,7 @@
     <input type="text" name="writer" placeholder="작성자를 입력해주세요.">
   </div>
   <div>
-<<<<<<< HEAD
-    Finished: <input type="checkbox" name="finished" >
-=======
    Finished: <input type="checkbox" name="finished" >
->>>>>>> origin/main
   </div>
   <div>
     <button type="reset">초기화</button>

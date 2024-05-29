@@ -5,13 +5,8 @@
   <title>Title</title>
 </head>
 <body>
-<<<<<<< HEAD
-<h1>404 Not Found 임시 화면입니다 </h1>
-<h1>빠르게 조취 해드리겠습니다. 죄송합니다.</h1>
-=======
   <h1>404 Not Found 임시 화면입니다 </h1>
   <h1>빠르게 조취 해드리겠습니다. 죄송합니다.</h1>
->>>>>>> origin/main
 </body>
 </html>
 
