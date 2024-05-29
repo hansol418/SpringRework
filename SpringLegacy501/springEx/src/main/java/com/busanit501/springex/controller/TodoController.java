@@ -1,6 +1,8 @@
 package com.busanit501.springex.controller;
 
 import com.busanit501.springex.dto.TodoDTO;
+import com.busanit501.springex.service.TodoService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -18,22 +20,29 @@ import java.time.LocalDate;
 // 설정은 , 클래스 앞에도 가능하고, 메서드 앞에도 가능함.
 @RequestMapping("/todo")
 @Log4j2
+@RequiredArgsConstructor
 public class TodoController {
+
+  final TodoService todoService;
+
   @RequestMapping("/list")
   public  void listTest() {
     // 최종 경로 : http://localhost:8080/todo/list
     // 최종 경로 : /todo/list
     log.info("todo list 조회 화면 테스트 콘솔");
   }
-//  @RequestMapping(value = "/register", method = RequestMethod.GET)
+  //  @RequestMapping(value = "/register", method = RequestMethod.GET)
   @GetMapping("/register")
   public void registerGetTest() {
     log.info("todo register 등록 화면 Get  테스트 콘솔");
   }
 
   @PostMapping("/register")
-  public void registerPostTest(TodoDTO todoDTO) { log.info("todo register 등록 화면 Post 테스트 콘솔");
+  public String registerPostTest(TodoDTO todoDTO) {
+//    log.info("todo register 등록 화면 Post 테스트 콘솔");
     log.info(" TodoDTO todoDTO 타입 원래 register 확인.  : " + todoDTO );
+    todoService.insert(todoDTO);
+    return "redirect:/todo/list";
 
   }
 
@@ -84,12 +93,12 @@ public class TodoController {
   public void ex5Test(Model model) {
     log.info("ex5 test...");
     TodoDTO todoDTO = TodoDTO.builder()
-        .tno(100L)
-        .title("메뉴1")
-        .writer("이상용")
-        .dueDate(LocalDate.now())
-        .finished(true)
-        .build();
+            .tno(100L)
+            .title("메뉴1")
+            .writer("이상용")
+            .dueDate(LocalDate.now())
+            .finished(true)
+            .build();
     // 서버 -> 화면 , 데이터 전달.
     model.addAttribute("menu","잡채밥");
     model.addAttribute("todoDTO",todoDTO);
@@ -128,9 +137,9 @@ public class TodoController {
     redirectAttributes.addAttribute("menu2","tomorrow lunch menu lamen");
     // 일회용 데이터 사용법.
     redirectAttributes.addFlashAttribute("result", "라면");
-        // 페이지 전환,
+    // 페이지 전환,
     return "redirect:/todo/ex8";
-      }
+  }
 
   @GetMapping("/ex8")
   public void ex8Test() {
