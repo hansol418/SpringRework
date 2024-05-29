@@ -26,6 +26,18 @@ implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.
 13) @Future : 미래 날짜만 가능.
 14) @Past : 과거 날짜만 가능.
 
+사용법,
+예시) DTO, 에서 해당 필드 위에
+@NotNull
+private Long tno
+
+서버의 post 메서드의 파라미터 안에 @Valid 달아서 표시하기.
+
+예시2)
+BindingResult
+컨트롤러에서, 검증 실패시, 자동으로 오류 관련 내용을 담아 준다.
+
+
 
 
 

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -51,33 +52,41 @@
           Featured
         </div>
         <div class="card-body">
-          <%--         register.jsp 의 화면을 복붙--%>
-          <form method="post" action="/todo/register">
-            <input type="hidden" name="tno" value="1">
-            <div class="mb-3">
-              <label for="title" class="form-label">제목</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요.">
-            </div>
-            <div class="mb-3">
-              <label for="dueDate" class="form-label">일정</label>
-              <input type="date" name="dueDate" class="form-control" id="dueDate">
-            </div>
+<%--         register.jsp 의 화면을 복붙--%>
+  <form method="post" action="/todo/register">
+    <input type="hidden" name="tno" value="1">
+    <div class="mb-3">
+      <label for="title" class="form-label">제목</label>
+      <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요.">
+    </div>
+    <div class="mb-3">
+      <label for="dueDate" class="form-label">일정</label>
+      <input type="date" name="dueDate" class="form-control" id="dueDate">
+    </div>
 
-            <div class="mb-3">
-              <label for="writer" class="form-label">작성자</label>
-              <input type="text" name="writer" class="form-control" id="writer" placeholder="작성자를 입력해주세요.">
-            </div>
+    <div class="mb-3">
+      <label for="writer" class="form-label">작성자</label>
+      <input type="text" name="writer" class="form-control" id="writer" placeholder="작성자를 입력해주세요.">
+    </div>
 
-            <div class="mb-3">
-              <label class="form-check-label" for="finished">Finished</label>
-              <input type="checkbox" class="form-check-input" id="finished" name="finished">
-            </div>
+    <div class="mb-3">
+      <label class="form-check-label" for="finished">Finished</label>
+      <input type="checkbox" class="form-check-input" id="finished" name="finished">
+    </div>
 
-            <div class="mb-3">
-              <button type="submit" class="btn btn-primary">작성</button>
-              <button type="reset" class="btn btn-danger">초기화</button>
-            </div>
-          </form>
+     <div class="mb-3">
+      <button type="submit" class="btn btn-primary">작성</button>
+      <button type="reset" class="btn btn-danger">초기화</button>
+    </div>
+
+  </form>
+  <script>
+    const serverValidErrors = {}
+    <c:forEach items = "${errors}" var="error">
+    serverValidErrors['${error.getField()}'] = '${error.defaultMessage}'
+    </c:forEach>
+    console.log(serverValidErrors)
+  </script>
         </div>
       </div>
     </div>
