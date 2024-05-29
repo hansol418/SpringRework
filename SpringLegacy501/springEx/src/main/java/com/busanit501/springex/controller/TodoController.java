@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.List;
 
 // 데이터만 전달. API 서버, API REST 서버,
 //@RestController
@@ -27,11 +28,13 @@ public class TodoController {
 
   final TodoService todoService;
 
-  @RequestMapping("/list")
-  public  void listTest() {
-    // 최종 경로 : http://localhost:8080/todo/list
-    // 최종 경로 : /todo/list
-    log.info("todo list 조회 화면 테스트 콘솔");
+  @GetMapping("/list")
+  public  void listTest(Model model) {
+        log.info("todo list 조회 화면 테스트 콘솔");
+        List<TodoDTO> dtoList = todoService.listAll();
+        // 서버 -> 화면, 모델
+    model.addAttribute("dtoList", dtoList);
+
   }
 //  @RequestMapping(value = "/register", method = RequestMethod.GET)
   @GetMapping("/register")
