@@ -1,6 +1,7 @@
 package com.busanit501.springex.service;
 
 import com.busanit501.springex.domain.TodoVO;
+import com.busanit501.springex.dto.PageRequestDTO;
 import com.busanit501.springex.dto.TodoDTO;
 import com.busanit501.springex.mapper.TodoMapper;
 import lombok.extern.log4j.Log4j2;
@@ -38,19 +39,26 @@ public class TodoServiceTests {
 
   @Test
   public void testListAll() {
-    List<TodoDTO> todoList = todoService.listAll();
+    //페이징 정보 임시 데이터 빠져 있음. 추가.
+    PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+            .page(1)
+            .size(10)
+            .build();
+
+
+    List<TodoDTO> todoList = todoService.listAll(pageRequestDTO);
     todoList.forEach(dto -> log.info("dto : " + dto));
   }
 
   @Test
   public void testGetOne() {
-    TodoDTO todoDTO = todoService.getOne(25L);
+    TodoDTO todoDTO = todoService.getOne(35L);
     log.info("todoDTO : " + todoDTO);
   }
 
   @Test
   public void testDelete() {
-    todoService.delete(25L);
+    todoService.delete(34L);
 
   }
 
@@ -58,7 +66,7 @@ public class TodoServiceTests {
   public void testUpdate() {
 //    수정 하기위한 더미 데이터 만들기.
     TodoDTO todoDTO = TodoDTO.builder()
-            .tno(25L)
+            .tno(35L)
             .title("족발 워너비 고씨")
             .dueDate(LocalDate.of(2024,6,1))
             .finished(false)
@@ -68,7 +76,14 @@ public class TodoServiceTests {
 
   }
 
-}
+  @Test
+  public void testGetCount() {
+    int result = todoService.getCount();
+    log.info("result: todo 전체 갯수 : " + result);
+
+  }
+
+} // 닫는 블록
 
 
 

@@ -1,6 +1,7 @@
 package com.busanit501.springex.service;
 
 import com.busanit501.springex.domain.TodoVO;
+import com.busanit501.springex.dto.PageRequestDTO;
 import com.busanit501.springex.dto.TodoDTO;
 import com.busanit501.springex.mapper.TodoMapper;
 import lombok.extern.log4j.Log4j2;
@@ -29,8 +30,8 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public List<TodoDTO> listAll() {
-    List<TodoVO> sampleLists = todoMapper.listAll();
+  public List<TodoDTO> listAll(PageRequestDTO pageRequestDTO) {
+    List<TodoVO> sampleLists = todoMapper.listAll(pageRequestDTO);
     // TodoVo -> TodoDTO
     List<TodoDTO> dtoLists = sampleLists.stream().map(vo -> modelMapper.map(vo, TodoDTO.class))
             .collect(Collectors.toList());
@@ -53,6 +54,12 @@ public class TodoServiceImpl implements TodoService {
   public void update(TodoDTO todoDTO) {
     TodoVO todoVO = modelMapper.map(todoDTO, TodoVO.class);
     todoMapper.update(todoVO);
+  }
+
+  @Override
+  public int getCount() {
+    int result = todoMapper.getCount();
+    return result;
   }
 
 }

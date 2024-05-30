@@ -1,5 +1,6 @@
 package com.busanit501.springex.controller;
 
+import com.busanit501.springex.dto.PageRequestDTO;
 import com.busanit501.springex.dto.TodoDTO;
 import com.busanit501.springex.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,9 @@ public class TodoController {
   final TodoService todoService;
 
   @GetMapping("/list")
-  public  void listTest(Model model) {
+  public  void listTest(Model model, PageRequestDTO pageRequestDTO) {
     log.info("todo list 조회 화면 테스트 콘솔");
-    List<TodoDTO> dtoList = todoService.listAll();
+    List<TodoDTO> dtoList = todoService.listAll(pageRequestDTO);
     // 서버 -> 화면, 모델
     model.addAttribute("dtoList", dtoList);
 

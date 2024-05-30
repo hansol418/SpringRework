@@ -1,0 +1,87 @@
+select now();
+
+create table tbl_todo (
+                          tno int auto_increment primary key,
+                          title varchar(100) not null,
+                          dueDate date not null,
+                          finished tinyint default 0
+);
+
+alter table tbl_todo add column writer varchar(30);
+select * from tbl_todo;
+
+insert into tbl_todo (title, dueDate, finished) values ('샘플1','2024-05-16',1);
+insert into tbl_todo (title, dueDate) values ('점심 뭐 먹지?국밥','2024-05-21');
+
+# 전체 보기
+select * from tbl_todo;
+# 하나의 글 보기, 상세보기
+select * from tbl_todo where tno = 2;
+select * from tbl_todo where tno < 10;
+
+update tbl_todo set finished = 0, title = '샘플1수정', dueDate = now() where tno = 4;
+
+delete from tbl_todo where tno > 5;
+delete from tbl_todo where tno = 11;
+
+drop table lunchmenu;
+create table lunchmenu (
+                           menuNo int auto_increment primary key,
+                           menuTitle varchar(100) not null,
+                           menuRegDate date not null
+);
+
+
+
+insert into lunchmenu ( menuTitle, menuRegDate) values ('샘플메뉴','2024-05-17');
+
+select * from lunchmenu;
+
+create table tbl_member (
+                            mid varchar(50) primary key,
+                            mpw varchar(50) not null,
+                            mname varchar(100) not null
+);
+insert into tbl_member ( mid, mpw, mname) values ('lsy','1234','이상용1');
+insert into tbl_member ( mid, mpw, mname) values ('lsy2','1234','이상용2');
+
+select * from tbl_member;
+
+alter table tbl_member add column uuid varchar(50);
+# 자동 로그인 체크 여부 tinyint default 0
+alter table tbl_member add column autoLogined tinyint default 0;
+
+update tbl_member set uuid = 'testuuid'  where mid = 'lsy' and mpw = '1234';
+
+update tbl_member set autoLogined = 1 where mid = 'lsy';
+
+
+create table menu_member (
+                             mid varchar(50) primary key,
+                             mpw varchar(50) not null,
+                             mname varchar(100) not null
+);
+
+insert into menu_member ( mid, mpw, mname) values ('lsy','1234','이상용1');
+insert into menu_member ( mid, mpw, mname) values ('lsy2','1234','이상용2');
+
+alter table menu_member add column uuid varchar(50);
+
+select * from tbl_todo;
+select count(tno) from tbl_todo;
+# 샘플 디비 만들기. 최소 1000개 이상.
+# 현재 갯수 x 2,
+insert into tbl_todo (title, dueDate, writer) (select title, dueDate, writer from tbl_todo);
+
+#페이징 처리 위한, 마리아 디비에서 제공하는 limit 키워드 이용 및 연습해보기.
+# 10개만 불러오기. 1페이지 10개
+select * from tbl_todo order by tno desc  limit 10;
+# 처음 10개를 skip 건너띄고, 다음 10개 가져오기.
+# limit (건너뛰는 갯수) (불러오는 갯수), 2페이지의 10개
+select * from tbl_todo order by tno desc limit 10 , 10;
+# 3페이지의 10개. (n-1) * 10
+select * from tbl_todo order by tno desc limit 20 , 10;
+# 4페이지의 10개. (n-1) * 10
+select * from tbl_todo order by tno desc limit 30 , 10;
+
+

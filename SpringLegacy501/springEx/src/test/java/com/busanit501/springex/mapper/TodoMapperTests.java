@@ -1,6 +1,7 @@
 package com.busanit501.springex.mapper;
 
 import com.busanit501.springex.domain.TodoVO;
+import com.busanit501.springex.dto.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,19 +42,25 @@ public class TodoMapperTests {
 
   @Test
   public void testSelect() {
-    List<TodoVO> todoList = todoMapper.listAll();
+    //페이징 정보를 가지고 있는 임시 더미 데이터, PageRequestDTO
+    PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+            .page(1)
+            .size(10)
+            .build();
+
+    List<TodoVO> todoList = todoMapper.listAll(pageRequestDTO);
     todoList.forEach(vo -> log.info("vo : " + vo));
   }
 
   @Test
   public void testGetOne() {
-    TodoVO todoVO = todoMapper.getOne(25L);
+    TodoVO todoVO = todoMapper.getOne(35L);
     log.info("todoVO : " + todoVO);
   }
 
   @Test
   public void testDelete() {
-    todoMapper.delete(25L);
+    todoMapper.delete(36L);
 
   }
 
@@ -61,7 +68,7 @@ public class TodoMapperTests {
   public void testUpdate() {
     // 변경할 임시 데이터
     TodoVO todoVO = TodoVO.builder()
-            .tno(24L)
+            .tno(35L)
             .title("초밥 먹기")
             .dueDate(LocalDate.of(2024,5,31))
             .finished(false)
@@ -69,9 +76,15 @@ public class TodoMapperTests {
 
     todoMapper.update(todoVO);
 
-
   }
-}
+
+  @Test
+  public void testGetCount() {
+    int result = todoMapper.getCount();
+    log.info("result todo 전체 갯수 : " + result);
+  }
+
+} // 전체 닫는 블록
 
 
 
