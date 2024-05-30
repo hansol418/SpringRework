@@ -50,6 +50,27 @@ public class TodoMapperTests {
     TodoVO todoVO = todoMapper.getOne(25L);
     log.info("todoVO : " + todoVO);
   }
+
+  @Test
+  public void testDelete() {
+    todoMapper.delete(25L);
+
+  }
+
+  @Test
+  public void testUpdate() {
+    // 변경할 임시 데이터
+    TodoVO todoVO = TodoVO.builder()
+            .tno(24L)
+            .title("초밥 먹기")
+            .dueDate(LocalDate.of(2024,5,31))
+            .finished(false)
+            .build();
+
+    todoMapper.update(todoVO);
+
+
+  }
 }
 
 

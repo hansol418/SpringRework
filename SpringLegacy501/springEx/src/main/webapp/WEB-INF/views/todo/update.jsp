@@ -53,58 +53,54 @@
         </div>
         <div class="card-body">
           <%--         register.jsp 의 화면을 복붙--%>
+          <form method="post" action="/todo/update">
+            <input type="hidden" name="tno" value="${todoDTO.tno}">
+            <div class="mb-3">
+              <label for="title" class="form-label">제목</label>
+              <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요." value="${todoDTO.title}" >
+            </div>
+            <div class="mb-3">
+              <label for="dueDate" class="form-label">일정</label>
+              <input type="date" name="dueDate" class="form-control" id="dueDate" value="${todoDTO.dueDate}" >
+            </div>
 
-          <input type="hidden" name="tno" value="1">
-          <div class="mb-3">
-            <label for="title" class="form-label">제목</label>
-            <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요." value="${todoDTO.title}" >
-          </div>
-          <div class="mb-3">
-            <label for="dueDate" class="form-label">일정</label>
-            <input type="date" name="dueDate" class="form-control" id="dueDate" value="${todoDTO.dueDate}" >
-          </div>
+            <div class="mb-3">
+              <label for="writer" class="form-label">작성자</label>
+              <input type="text" name="writer" class="form-control" id="writer" placeholder="작성자를 입력해주세요."value="${todoDTO.writer}" readonly>
+            </div>
 
-          <div class="mb-3">
-            <label for="writer" class="form-label">작성자</label>
-            <input type="text" name="writer" class="form-control" id="writer" placeholder="작성자를 입력해주세요."value="${todoDTO.writer}" readonly>
-          </div>
+            <div class="mb-3">
+              <label class="form-check-label" for="finished">Finished</label>
+              <input type="checkbox" class="form-check-input" id="finished" name="finished" ${todoDTO.finished ? "checked" :""}>
+            </div>
 
-          <div class="mb-3">
-            <label class="form-check-label" for="finished">Finished</label>
-            <input type="checkbox" class="form-check-input" id="finished" name="finished" value="${todoDTO.finished}">
-          </div>
-
-          <div class="mb-3">
-            <button type="button" class="btn btn-primary">수정하기</button>
-            <button type="button" class="btn btn-warning">삭제하기</button>
-            <button type="button" class="btn btn-danger">목록가기</button>
-          </div>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">수정하기</button>
+              <button type="button" class="btn btn-danger">목록가기</button>
+            </div>
+          </form>
+          <form method="post" action="/todo/delete">
+            <input type="hidden" name="tno" value="${todoDTO.tno}">
+            <button type="submit" class="btn btn-warning">삭제하기</button>
+          </form>
 
           <script>
-            document.querySelector(".btn-primary").addEventListener("click", function(event) {
-              // 수정 버튼의 원래의 역할 submit, form 안의 데이터를 서버에게 전달하는 역할.
-              // 단순, 수정폼 화면만 가면됨. 그래서, 기본 기능 안쓸 예정.
-              // button의 타입이, submit, reset 의 고유 기능이 있기 때문. off 하고 이용.
-              // 단순 버튼은 기본 기능이 없음. -> event.preventDefault()  ,주석.
-              // 단순 버튼은 기본 기능이 없음. -> event.stopPropagation()  ,주석.
-              // event.preventDefault()
-              // dom , 전파를 막는 역할.
-              // event.stopPropagation()
-              self.location = "/todo/update?tno="+ ${tododto.tno}
-              // false : 캡쳐링, 이벤트가 발생한 곳부터 전파.
-              // true : 버블링, 위에서 부터 이벤트가 전파.
-            },false)
+            // form 태그의 요소를 선택하기. -> 기본이 action -> /todo/update, 변경, post 방식.
+            // const formObject = document.querySelector("form")
+            //
+            // document.querySelector(".btn-warning").addEventListener("click",function(event){
+            //   event.preventDefault()
+            //   event.stopPropagation()
+            //
+            //   formObject.action = "/todo/delete"
+            //   formObject.method = "post"
+            //   formObject.submit()
+            // }, false)
 
             document.querySelector(".btn-danger").addEventListener("click", function(event) {
               self.location = "/todo/list"
 
-            },false)
-
-            const serverValidErrors = {}
-            <c:forEach items = "${errors}" var="error">
-            serverValidErrors['${error.getField()}'] = '${error.defaultMessage}'
-            </c:forEach>
-            console.log(serverValidErrors)
+            },false);
           </script>
         </div>
       </div>
