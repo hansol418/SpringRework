@@ -12,7 +12,7 @@ public interface TodoMapper {
 
   void insert(TodoVO todoVO);
 
-  //  페이징을 위한 준비물, PageRequestDTO 탑재하기. 페이징 정보를 담기
+//  페이징을 위한 준비물, PageRequestDTO 탑재하기. 페이징 정보를 담기
   // page ,1 , size 10 , skip 할 번호 정보, 페이지의 영향을 받았음.
   List<TodoVO> listAll(PageRequestDTO pageRequestDTO);
 
@@ -23,6 +23,7 @@ public interface TodoMapper {
   void update(TodoVO todoVO);
   // 전체 갯수 구하는 메서드, 페이징 처리시 필요한 준비물.
   int getCount();
+  int getCount2(PageRequestDTO pageRequestDTO);
 }
 
 

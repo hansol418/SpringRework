@@ -1,5 +1,24 @@
+디비 관련 쿼리
+#페이징 처리 위한, 마리아 디비에서 제공하는 limit 키워드 이용 및 연습해보기.
+# 10개만 불러오기. 1페이지 10개
+select * from tbl_todo order by tno desc  limit 10;
+
+# 처음 10개를 skip 건너띄고, 다음 10개 가져오기.
+# limit (건너뛰는 갯수) (불러오는 갯수),
+2페이지의 10개
+select * from tbl_todo order by tno desc limit 10 , 10;
+
+# 3페이지의 10개. (n-1) * 10
+select * from tbl_todo order by tno desc limit 20 , 10;
+
+# 4페이지의 10개. (n-1) * 10
+select * from tbl_todo order by tno desc limit 30 , 10;
+
 페이징 처리 위한 준비물.
+
+
 화면 -> 서버 , 전달할 내용.
+PageRequestDTO
 
 1) page 번호, 1
 2) size 페이지당 보여줄 갯수 , 10개씩 보여주기.
@@ -45,6 +64,8 @@
 페이지 : 1,2,3,4,5,6,7,8
 
 조건) 끝나는 페이지 갯수 > 기본 10(end) ? 끝나는 페이지 갯수 : end
+조건) last(8) > end(10) ? last : end
+조건) end > last ? end : last
 
 
 

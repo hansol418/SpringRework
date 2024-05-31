@@ -1,6 +1,7 @@
 package com.busanit501.springex.controller;
 
 import com.busanit501.springex.dto.PageRequestDTO;
+import com.busanit501.springex.dto.PageResponseDTO;
 import com.busanit501.springex.dto.TodoDTO;
 import com.busanit501.springex.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -32,26 +33,62 @@ public class TodoController {
   @GetMapping("/list")
   public  void listTest(Model model, PageRequestDTO pageRequestDTO) {
     log.info("todo list 조회 화면 테스트 콘솔");
-    List<TodoDTO> dtoList = todoService.listAll(pageRequestDTO);
+    // 수정하기, 반환 타입을 PageResponseDTO 타입으로 변경하기.
+    // 10개 나눠진 것만 확인용.
+//        List<TodoDTO> dtoList = todoService.listAll(pageRequestDTO);
     // 서버 -> 화면, 모델
-    model.addAttribute("dtoList", dtoList);
+    // pageResponseDTO 의 내용물
+    // 1) PageRequestDTO(page,size,getSkip)  2) List<TodoDTO> dtoList 3) total 전체갯수
+
+    // 검색 조건 : 1) finished = 1 2) 작성자 w, 3) 제목 t, 4) keyword : 오늘
+    // page = 1, size = 10
+    // 기한 은 빼기.
+    // 검색 후 페이징 번호 처리 안됨 1차조사
+    // 검색 후 결과의 갯수 2차 조사,
+    // 검색 결과 2,
+    /// 페이지 표시: 1 만 나오기.
+    log.info("pageRequestDTO의 finished 조회 : " + pageRequestDTO);
+
+    PageResponseDTO<TodoDTO> pageResponseDTO = todoService.listAll(pageRequestDTO);;
+    model.addAttribute("pageResponseDTO", pageResponseDTO);
 
   }
 
   @GetMapping({"/read", "/update"})
-  public  void readTest(Long tno, Model model) {
+  public  void readTest(Long tno,PageRequestDTO pageRequestDTO, Model model) {
     log.info("todo list 조회 화면 테스트 콘솔");
     // C -> S -> Mapper -> DB
     // C <- S <- Mapper <- DB
     TodoDTO todoDTO = todoService.getOne(tno);
     // 서버 -> 화면, 모델
+    // 파라미터에 정의된. PageRequestDTO pageRequestDTO , 화면에서 바로 사용가능.
+    //
     model.addAttribute("todoDTO", todoDTO);
 
   }
   // 수정 관련 로직 처리  .
   @PostMapping("/update")
-  public String updateTest(TodoDTO todoDTO, RedirectAttributes redirectAttributes){
+  public String updateTest(@Valid TodoDTO todoDTO, BindingResult bindingResult, PageRequestDTO pageRequestDTO, RedirectAttributes redirectAttributes){
     log.info("수정시 tno 확인 : " + todoDTO);
+
+    int page = pageRequestDTO.getPage();
+    int size = pageRequestDTO.getSize();
+
+    // 유효성 검사 실패시에만 동작을함.
+    if(bindingResult.hasErrors()) {
+      log.info("현재: 수정중 오류 확인. bindingResult.hasErrors() 실행됨. ");
+      redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors() );
+      log.info("page : " + page + " size : " + size + "todoDTO.getTno() : " +todoDTO.getTno());
+      // 서버 -> 화면으로 , 데이터 전달, 방식 :쿼리스트링 하는 방식.
+      redirectAttributes.addAttribute("page",page );
+      redirectAttributes.addAttribute("size",size );
+      redirectAttributes.addAttribute("tno", todoDTO.getTno());
+      return "redirect:/todo/update";
+    }
+
+    redirectAttributes.addAttribute("page",page );
+    redirectAttributes.addAttribute("size",size );
+    redirectAttributes.addAttribute("tno", todoDTO.getTno());
     todoService.update(todoDTO);
     return "redirect:/todo/list";
 
@@ -59,9 +96,16 @@ public class TodoController {
 
 
   @PostMapping("/delete")
-  public String deleteTest(Long tno, RedirectAttributes redirectAttributes){
+  public String deleteTest(Long tno, PageRequestDTO pageRequestDTO,RedirectAttributes redirectAttributes){
     log.info("삭제시 tno 확인 : " + tno);
+    int page = pageRequestDTO.getPage();
+    int size = pageRequestDTO.getSize();
+
+    // 서버 -> 화면으로 , 데이터 전달, 방식 :쿼리스트링 하는 방식.
+    redirectAttributes.addAttribute("page",page );
+    redirectAttributes.addAttribute("size",size );
     todoService.delete(tno);
+//    return "redirect:/todo/list?page="+page+"&size="+size;
     return "redirect:/todo/list";
 
   }

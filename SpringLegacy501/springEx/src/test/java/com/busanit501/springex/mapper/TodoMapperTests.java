@@ -32,11 +32,11 @@ public class TodoMapperTests {
   public void testInsert() {
     // 임시 TodoVO , 인스턴스 필요하고,
     TodoVO todoVO = TodoVO.builder()
-            .title("돈까스22222222222222222222222222")
-            .dueDate(LocalDate.now())
-            .finished(false)
-            .writer("이상용222222222222222222222222222")
-            .build();
+        .title("돈까스22222222222222222222222222")
+        .dueDate(LocalDate.now())
+        .finished(false)
+        .writer("이상용222222222222222222222222222")
+        .build();
     todoMapper.insert(todoVO);
   }
 
@@ -44,9 +44,9 @@ public class TodoMapperTests {
   public void testSelect() {
     //페이징 정보를 가지고 있는 임시 더미 데이터, PageRequestDTO
     PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-            .page(1)
-            .size(10)
-            .build();
+        .page(1)
+        .size(10)
+        .build();
 
     List<TodoVO> todoList = todoMapper.listAll(pageRequestDTO);
     todoList.forEach(vo -> log.info("vo : " + vo));
@@ -68,21 +68,60 @@ public class TodoMapperTests {
   public void testUpdate() {
     // 변경할 임시 데이터
     TodoVO todoVO = TodoVO.builder()
-            .tno(35L)
-            .title("초밥 먹기")
-            .dueDate(LocalDate.of(2024,5,31))
-            .finished(false)
-            .build();
+        .tno(35L)
+        .title("초밥 먹기")
+        .dueDate(LocalDate.of(2024,5,31))
+        .finished(false)
+        .build();
 
     todoMapper.update(todoVO);
 
-  }
+     }
 
   @Test
   public void testGetCount() {
     int result = todoMapper.getCount();
     log.info("result todo 전체 갯수 : " + result);
   }
+
+  // 검색시, 타입에 관련된 테스트
+  // 화면 -> 서버, 페이징 정보를 담아서 보내고 , PageRequestDTO + 검색, 필터 준비물
+  @Test
+  public void testSelectTypes() {
+    // 테스트용 더미 PageRequestDTO 만들기.
+    PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+        .page(1)
+        .size(10)
+        .keyword("오늘")
+        // 검색 조건이, 작성자 또는 제목
+        .types(new String[]{"t","w"})
+        .from(LocalDate.of(2024,5,1))
+        .to(LocalDate.of(2024,5,31))
+        .finished(true)
+        .build();
+
+ List<TodoVO> voList  = todoMapper.listAll(pageRequestDTO);
+ voList.forEach(vo -> log.info("vo : " + vo ));
+  }
+
+
+  @Test
+  public void testGetCountWithSearch() {
+    // 테스트용 더미 PageRequestDTO 만들기.
+    PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+        .page(1)
+        .size(10)
+        .keyword("오늘")
+        // 검색 조건이, 작성자 또는 제목
+        .types(new String[]{"t","w"})
+        .from(LocalDate.of(2024,5,1))
+        .to(LocalDate.of(2024,5,31))
+        .finished(true)
+        .build();
+    int result = todoMapper.getCount2(pageRequestDTO);
+    log.info("result todo 전체 갯수 : " + result);
+  }
+
 
 } // 전체 닫는 블록
 
